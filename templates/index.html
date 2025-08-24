@@ -2,16 +2,19 @@
 <html>
 <head>
     <title>Скачать видео с YouTube</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Скачать видео с YouTube</h1>
-    <form method="POST">
-        <label>Введите URL видео:</label><br>
-        <input type="text" name="url" placeholder="https://www.youtube.com/watch?v=..." required><br>
-        <input type="submit" value="Скачать">
+<body class="container mt-5">
+    <h1 class="text-center">Скачать видео с YouTube</h1>
+    <form method="POST" class="mt-3">
+        <div class="mb-3">
+            <label class="form-label">Введите URL видео:</label>
+            <input type="text" name="url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." required>
+        </div>
+        <button type="submit" class="btn btn-primary">Скачать</button>
     </form>
     {% if message %}
-        <p>{{ message }}</p>
+        <p class="mt-3 text-danger">{{ message }}</p>
     {% endif %}
 </body>
 </html>
