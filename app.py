@@ -7,6 +7,10 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    # Очистка папки downloads перед новым скачиванием
+    shutil.rmtree("downloads", ignore_errors=True)
+    os.makedirs("downloads", exist_ok=True)
+
     if request.method == "POST":
         url = request.form.get("url")
         if not url:
@@ -19,6 +23,7 @@ def index():
                 'outtmpl': f'{output_path}/%(title)s.%(ext)s',
                 'format': 'bestvideo+bestaudio/best',
                 'merge_output_format': 'mp4',
+                'cookiefile': 'cookies.txt',  # Добавляем cookies
             }
             with YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(url, download=True)
@@ -30,12 +35,6 @@ def index():
             return render_template("index.html", message=f"Ошибка: {str(e)}")
     
     return render_template("index.html", message="")
-
-# Очистка папки downloads перед выходом (опционально)
-@app.route("/shutdown", methods=["POST"])
-def shutdown():
-    shutil.rmtree("downloads", ignore_errors=True)
-    return "Сервер остановлен"
 
 if __name__ == "__main__":
     os.makedirs("downloads", exist_ok=True)
